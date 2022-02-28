@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            {% for w in weather %}
+                            <input class="input" type="text" name="city" value="{{w.city}}" placeholder="Update City Name">
+                            {% endfor %}
+                        </div>
+                        <div class="control">
+                            <button class="button is-info">
+                                Update City
+                            </button>
+                        </div>
+                    </div>
+                    <div class="notification {{msgclass}}">
+                        {{msg}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                {% for w in weather %}
+                <div class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-50x50">
+                                <img src="http://openweathermap.org/img/w/{{w.icon}}.png" alt="Image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <span class="title">{{w.city}}</span>
+                                    <br>
+                                    <span class="subtitle">{{w.temperature}}° F</span>
+                                    <br> {{w.description}}
+                                </p>
+                            </div>
+                        </div>
+                        <!-- <div class="media-right">
+                            <a href="{% url 'City_remove' w.city %}">
+                                <button class='delete'></button>
+                            </a>
+                        </div> -->
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

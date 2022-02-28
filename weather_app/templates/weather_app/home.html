@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <!-- <input class="input" type="text" placeholder="City Name"> -->
+                            <!-- direct form is imported -->
+                            {{form.name}}
+                        </div>
+                        <div class="control">
+                            <button class="button is-info">
+                                Add City
+                            </button>
+                        </div>
+                    </div>
+                    <!-- this div will show both success and error message -->
+                    <div class="notification {{msgclass}}">
+                        {{msg}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                <!-- a loop is used for displaying data -->
+                {% for w in weather %}
+                <div class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-50x50">
+                                <img src="http://openweathermap.org/img/w/{{w.icon}}.png" alt="Image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <span class="title">{{w.city}}</span>
+                                    <br>
+                                    <span class="subtitle">{{w.temperature}}° F</span>
+                                    <br> {{w.description}}
+                                </p>
+                            </div>
+                            <!-- Here update button -->
+                            <a href="{% url 'City_update' w.city %}">
+                                <button class="button is-warning">
+                                    Update
+                                </button>
+                            </a>
+                            
+                        </div>
+                        <!-- here delete button -->
+                        <div class="media-right">
+                            <a href="{% url 'City_remove' w.city %}">
+                                <button class='delete'></button>
+                            </a>
+                            
+                        </div>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
